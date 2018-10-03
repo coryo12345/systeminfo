@@ -1,5 +1,6 @@
 # systeminfo
-  A simple nodejs App for getting system information
+  A simple nodejs App for getting system information  
+  Designed for use on Windows. Functionality not guaranteed on other platforms.
 
 # Dependencies
   (Node Packages)  
