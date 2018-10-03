@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <title>System Info</title>
+</head>
+<body>
+    <div class="header-cont">
+        <span style="font-size:30px;cursor:pointer;position:fixed;left:1%" onclick="openMenu()">&#9776;        Hardware</span>
+        <div id="sideMenu" class="sidemenu">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+            <a href="usage.html">Usage</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+
+    <div id="cpulist" class="list">
+        CPU Information
+        <li>Manufacturer: <span id="cpu"></span></li>
+        <li>Model: <span id="cpu-model"></span></li>
+        <li>Speed: <span id="arch"></span></li>
+        <li>Cores: <span id="cores"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div id="motherboard" class="list">
+        Motherboard Information
+        <li>Manufacturer: <span id="manufac"></span></li>
+        <li>Model: <span id="model"></span></li>
+        <li>Version: <span id="version"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="list">
+        Battery Information
+        <li>Battery Exists: <span id="hasBatt"></span></li>
+        <li>Charging: <span id="charging"></span></li>
+        <li>Percent: <span id="battpercent"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="list">
+        GPU Information
+        <li>Model: <span id="gpu"></span></li>
+        <li>VRAM: <span id="vram"></span></li>
+    </div>
+
+    <script>
+        var electron = require('electron');
+        var os = require('os');
+        var si = require('systeminformation');
+
+        function closeMenu(){
+            document.getElementById("sideMenu").style.width = "0";
+        }
+
+        function openMenu(){
+            document.getElementById("sideMenu").style.width = "250px";
+        }
+
+        si.cpu(function(data){
+            document.getElementById("cpu").innerHTML = data.manufacturer;
+            document.getElementById("cpu-model").innerHTML = data.brand;
+            document.getElementById("cores").innerHTML = data.cores;
+            document.getElementById("arch").innerHTML = data.speed;
+        });
+
+        si.baseboard(function(data) {
+            document.getElementById("manufac").innerHTML = data.manufacurer;
+            document.getElementById("model").innerHTML = data.model;
+            document.getElementById("version").innerHTML= data.version;
+        });
+
+        si.battery(function(data){
+            document.getElementById("hasBatt").innerHTML = data.hasbattery;
+            document.getElementById("charging").innerHTML = data.ischarging;
+            document.getElementById("battpercent").innerHTML = data.percent;
+        });
+
+        si.graphics(function(data){
+            document.getElementById("gpu").innerHTML = data.controllers[0].model;
+            document.getElementById("vram").innerHTML = data.controllers[0].vram;
+        });
+
+    </script>
+</body>
+</html>

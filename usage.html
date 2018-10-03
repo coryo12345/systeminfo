@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <title>System Info</title>
+</head>
+<body>
+    <div class="header-cont">
+        <span style="font-size:30px;cursor:pointer;position:fixed;left:1%" onclick="openMenu()">&#9776;        Usage</span>
+        <div id="sideMenu" class="sidemenu">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+            <a href="usage.html">Usage</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+
+    <div class="list">
+        Memory
+        <li>Total Memory (mb): <span id="memory"></span></li>
+        <li>Free Memory (mb): <span id="freemem"></span></li>
+        <li>Percent Used: <span id="mempercent"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="list">
+        CPU Usage
+        <li>Load (%): <span id="cpu-load"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="list">
+        System Time
+        <li>Current: <span id="time"></span></li>
+        <li>Uptime: <span id="uptime"></span></li>
+        <li>Timezone: <span id="timezone"></span></li>
+    </div>
+
+    <script>
+        var electron = require('electron');
+        var os = require('os');
+        var si = require('systeminformation');
+
+        function closeMenu(){
+            document.getElementById("sideMenu").style.width = "0";
+        }
+
+        function openMenu(){
+            document.getElementById("sideMenu").style.width = "250px";
+        }
+
+        document.getElementById("memory").innerHTML = (os.totalmem()/ 1024 / 1024).toFixed(0);
+        document.getElementById("timezone").innerHTML = si.time().timezone;
+        var int = setInterval(function(){
+            document.getElementById("freemem").innerHTML = (os.freemem()/ 1024 / 1024).toFixed(0);
+            document.getElementById("mempercent").innerHTML = 100 - ((100 * os.freemem()/os.totalmem()).toFixed(0));
+            si.currentLoad(function(data){
+                document.getElementById("cpu-load").innerHTML = (data.currentload_user).toFixed(0);
+            });
+            document.getElementById("time").innerHTML= si.time().current;
+            document.getElementById("uptime").innerHTML = si.time().uptime;
+        }, 2000);
+
+    </script>
+</body>
+</html>

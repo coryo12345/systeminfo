@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <title>System Info</title>
+</head>
+<body>
+    <div class="header-cont">
+        <span style="font-size:30px;cursor:pointer;position:fixed;left:1%" onclick="openMenu()">&#9776;        About</span>
+        <div id="sideMenu" class="sidemenu">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+            <a href="usage.html">Usage</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+
+    <div class="list">
+        <li>Author: Cory DioGuardi</li>
+        <li>Node JS Version: 5.6.0</li>
+        <li>electron Version: 1.8.2</li>
+        <li>systeminformation Version: 3.37.4</li>
+    </div>
+
+    <script>
+            var electron = require('electron');
+            var os = require('os');
+            var si = require('systeminformation');
+    
+            function closeMenu(){
+                document.getElementById("sideMenu").style.width = "0";
+            }
+    
+            function openMenu(){
+                document.getElementById("sideMenu").style.width = "250px";
+            }   
+    </script>
+</body>
+</html>

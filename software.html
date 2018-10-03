@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <title>System Info</title>
+</head>
+<body>
+    <div class="header-cont">
+        <span style="font-size:30px;cursor:pointer;position:fixed;left:1%" onclick="openMenu()">&#9776;        Software</span>
+        <div id="sideMenu" class="sidemenu">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+            <a href="usage.html">Usage</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+
+    <div id="Oper Sys" class="list">
+        System Software
+        <li>Operating System: <span id="os"></span></li>
+        <li>Release: <span id="os-release"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="list">
+        Bios Information
+        <li>Vendor: <span id="vendor"></span></li>
+        <li>Version: <span id="version"></span></li>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="list">
+        Processes
+        <li>All Processes: <span id="all"></span></li>
+    </div>
+
+    <script>
+        var electron = require('electron');
+        var os = require('os');
+        var si = require('systeminformation');
+
+        function closeMenu(){
+            document.getElementById("sideMenu").style.width = "0";
+        }
+
+        function openMenu(){
+            document.getElementById("sideMenu").style.width = "250px";
+        }
+        
+
+        si.osInfo(function(data){
+            document.getElementById("os").innerHTML = data.platform;
+            document.getElementById("os-release").innerHTML = data.release;
+        });
+
+        si.bios(function(data){
+            document.getElementById("vendor").innerHTML = data.vendor;
+            console.log(data.vendor);
+            document.getElementById("version").innerHTML = data.version;
+        });
+
+        var int = setInterval(function(){
+            si.processes(function(data){
+                document.getElementById("all").innerHTML = data.all;
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
